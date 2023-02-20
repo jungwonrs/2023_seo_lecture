@@ -1,0 +1,24 @@
+1. 환경변수 설정하는법 (본인 pc 환경에 맞춰서)
+
+2. 메모장
+
+3. git bash
+
+
+1. git 주소 (강의자료)
+https://github.com/jungwonrs/2023_seo_lecture
+
+2. git bash 주소 (cmd 창, 다운로드 필수)
+https://git-scm.com/downloads
+
+3. go-ether 주소 (21일 실습 할 내용)
+https://geth.ethereum.org/docs
+
+4. etherscan (참고 사이트)
+https://etherscan.io/
+
+5. hyperledger besu git (프라이빗 네트워크 구축할때 활용할 사이트)
+https://github.com/hyperledger/besu
+
+6. ethereum git (참고 사이트)
+https://github.com/ethereum

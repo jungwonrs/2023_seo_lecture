@@ -1,100 +1,132 @@
-geth 란 
-이더리움 네트워크 (이더리움 메인넷, 이더리움 테스트 네트워크)랑 연결할 수 있도록 도와주는 프로그램.
-이더리움 기반의 프라이빗 네트워크를 생성할 수 있도록 도와주는 프로그램.
+atom 설치 = https://atom.softonic.kr/
 
-geth로 채굴하는 방법
-원하는 네트워크 동기화를 먼저하고, 명령어로 채굴시작. (현재 이더리움 PoS 전환이후 기존 채굴 방법 막힘)
+베수 (비수) 설치를 통한 이더리움 프라이빗 네트워크 구축
 
-geth private network 맛보기 실습
+베수 소스코드
+https://github.com/hyperledger/besu
 
-1. geth 설치 (인터넷을 통한 다운로드)
-2. cmd 창에서 geth 명령어가 작동하는지 확인 (작동이 안되는 경우 환경변수 확인)
-3. cmd 창에서 아래 명령어 작성하여 계정 파일 만들기
+release-22.7.7
+https://github.com/hyperledger/besu/tree/release-22.7.7
 
-명령어 syntax:
-geth --datadir [계정 파일을 만들고자 하는 폴더 위치] account new
-
-예시:
-geth --datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/keystore account new
-
-4. 블록체인 데이터를 저장할 폴더 만들기 (node1, node2)
-
-5. node1 폴더안에 keystore 폴더 만들기, node2 폴더안에 keystore 폴더 만들기
-
-6. node1, node2 폴더안 keystore 폴더 안에 3번에서 생성된 계정 파일 넣기
-
-7. genesis.json 파일 만들기 (genesis block을 위함)
-
-8. genesis.json 파일 이동
-
-9. genesis.json 파일을 적용
-명령어 syntax:
-geth --datadir data init [genesis.json 파일 위치]
-
-ex:
-geth --datadir data init genesis.json
-
-10. 노드 1번 구동
-
-geth 
---datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/node1/data 
---keystore /c/Users/jungw/OneDrive/Desktop/geth_private_network/node1/keystore 
---unlock 0 
---nodiscover 
---http 
---http.api 'personal,eth,net,web3,txpool,miner' 
---http.corsdomain "*" 
---networkid 12345 
---nat extip:127.0.0.1
---mine 
---miner.etherbase="8d6b836f8683b98a0adb1c94355c20a25db1584c" 
---allow-insecure-unlock console
-
-11. 노드 2번 구동
-
-geth 
---datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/node2/data
---networkid 12345 
---port 30304
---nodiscover 
---ipcdisable 
---authrpc.port 8552
-console
+java jdk 설치
+https://www.oracle.com/java/technologies/downloads/#jdk19-linux
 
 
-12. 노드 1, 노드2 연결
-노드 1에서 
-admin.nodeInfo.enode
-명령어 입력
+1. 다운로드 받은 besu 파일 압축풀기
 
-"enode://e330ca770bfea6172d5c42dc3753db7d3cbfe9b74e17c0e4114acbf25aa91ff13db8a65188937cad56b8a3ada25266550d7a832d35859a284efea3134a4ed64f@127.0.0.1:30303?discport=0"
+2. besu build 하기
+./gradlew installDist
 
-노드2에서
-admin.addPeer("enode://e330ca770bfea6172d5c42dc3753db7d3cbfe9b74e17c0e4114acbf25aa91ff13db8a65188937cad56b8a3ada25266550d7a832d35859a284efea3134a4ed64f@127.0.0.1:30303?discport=0")
+에러가 뜨는경우
+1. Java 충돌
+2. Java JDK 설치 오류
+3. 환경변수 오류
+
+[해결방법 1]
+./gradlew installDist 안되시는분들
+./gradlew clean installDist (에러)
+./gradlew clean 하신뒤에 
+./gradlew build 로 시도해보세요
+
+[해결방법 2]
+./gradlew clean
+./gradlew init
+./gradlew wrapper
+./gradlew downloadLicenses
+./gradlew nodeSetup
+./gradlew npmSetup
+./gradlew installDist
+
+[해결방법3]
+https://www.oracle.com/kr/java/technologies/javase/jdk11-archive-downloads.html
+
+[해결방법4]
+Powershell 관리자 권한으로 진행
 
 
-[기타 정보]
-eth.coinbase -> 보상 받는 주소 보는 명령어
-miner.start() -> 노드 1 채굴 시작
-miner.stop() -> 노드 1 채굴 종료
+
+3. besu 환경변수 설정
+C:\besu_practice\besu-release-22.7.7\besu-release-22.7.7\build\install\besu\bin
+C:\besu_practice\besu-release-22.7.7\besu-release-22.7.7\build\install\besu\bin
+C:\Users\jungw\OneDrive\Desktop\besu-release-22.1.2\besu-release-22.1.2\build\install\besu\bin
+
+4. besu network 폴더 만들기
+node1 -> data 폴더
+node2 -> data 폴더
+node3 -> data 폴더
+node4 -> data 폴더
+
+5. 계정 만들기
+https://vanity-eth.tk/
+사이트 활용
+
+node1
+address: 0xBde6cf72E3529D5E0F7c71a1C7f95aE5844A7E49
+private: 10e39fb4b2499cd61cf65aa308bc1dc9a8296ef3370e127f38337868645493cd
+
+node2
+address: 0x1409f3934dc71d8b3c937990a3A0131F4c23ccd6
+private: de52378e4a8b222d24b8d415f3590e69e345aac0262f9fa3c59fbe4f0b91ac84
+
+node3
+address: 0x0eB59DcFb1fB0eA6BafFB92a69b4c6fb0a4a9e04
+private: 8da9c2b6420a867c6d17cc898af0dfe5c59f6c21407ae14be6a223ab03380373
+
+node4
+address: 0x084B7552c013a7AC49E28F7df92495BE5c4FD951
+private: 904687fb1be8e3abe08f6f6e5532e6fea8ef53b3b1f987c5a0da6f2c326056d3
+
+6. ibftconfigFile.json 만들기
+
+7. genesis 파일 만들기
+명령어
+besu operator generate-blockchain-config --config-file=ibftconfigFile.json --to=networkFiles --private-key-file-name=key
+
+besu operator generate-blockchain-config 
+--config-file=ibftconfigFile.json
+--to=networkFiles 
+--private-key-file-name=key
+
+8. 노드 구동
+노드 1번 구동
+besu --data-path=data --genesis-file=../genesis.json --rpc-http-enabled --rpc-http-api=ETH,NET,IBFT, --host-allowlist="*" --rpc-http-cors-origins="all" --rpc-http-host="0.0.0.0"
 
 
-[node1]
-private key:
-4c77d8c27a29653d8dd0e9071aaf35363498cab023f82094d6d85f826fcdafe9
+besu 
+--data-path=data 
+--genesis-file=../genesis.json 
+--rpc-http-enabled
+--rpc-http-api=ETH,NET,IBFT
+--host-allowlist="*" 
+--rpc-http-cors-origins="all"
+--rpc-http-host="0.0.0.0"
 
-address:
-8d6b836f8683b98a0adb1c94355c20a25db1584c
+https://besu.hyperledger.org/en/stable/public-networks/reference/cli/options/
 
-[node2]
-private key:
-84cd76fb9a0f29b48e9c85c0c556d9abdb61c8b46bfe53c0cbd5d4b34e9ce6b5
 
-address:
-6f21f3cdd7c8c4f1fec1596e34e255c48a1e1e47
+9. 노드 구동 2, 3, 4
+노드 1 enode:
+enode://17967de60166b45d7c7ae752d3b79d0e4bba203f04f9c95c3e21a414a2477e3a3d7795bbd8ef5111717ea2250df96cbf6bc99d109209e425a578b4c523eb8e44@127.0.0.1:30303
+p2p-port = 30303
+rpc-http-port = 8545
 
-02-22 준비사항
+노드 2
+besu --data-path=data --genesis-file=../genesis.json --bootnodes=enode://17967de60166b45d7c7ae752d3b79d0e4bba203f04f9c95c3e21a414a2477e3a3d7795bbd8ef5111717ea2250df96cbf6bc99d109209e425a578b4c523eb8e44@127.0.0.1:30303 --p2p-port=30304 --rpc-http-enabled --rpc-http-api="ETH, NET, IBFT" --host-allowlist="*" --rpc-http-cors-origins="all" --rpc-http-port=8546
+besu --data-path=data --genesis-file=../genesis.json 
+--bootnodes=enode://17967de60166b45d7c7ae752d3b79d0e4bba203f04f9c95c3e21a414a2477e3a3d7795bbd8ef5111717ea2250df96cbf6bc99d109209e425a578b4c523eb8e44@127.0.0.1:30303 
+--p2p-port=30304 
+--rpc-http-enabled 
+--rpc-http-api="ETH, NET, IBFT" 
+--host-allowlist="*" 
+--rpc-http-cors-origins="all" 
+--rpc-http-port=8546
 
-1. Atom 설치
-2. JAVA 삭제 
+
+노드 3
+besu --data-path=data --genesis-file=../genesis.json --bootnodes=enode://17967de60166b45d7c7ae752d3b79d0e4bba203f04f9c95c3e21a414a2477e3a3d7795bbd8ef5111717ea2250df96cbf6bc99d109209e425a578b4c523eb8e44@127.0.0.1:30303 --p2p-port=30305 --rpc-http-enabled --rpc-http-api="ETH, NET, IBFT" --host-allowlist="*" --rpc-http-cors-origins="all" --rpc-http-port=8547
+
+
+노드 4
+besu --data-path=data --genesis-file=../genesis.json --bootnodes=enode://17967de60166b45d7c7ae752d3b79d0e4bba203f04f9c95c3e21a414a2477e3a3d7795bbd8ef5111717ea2250df96cbf6bc99d109209e425a578b4c523eb8e44@127.0.0.1:30303 --p2p-port=30306 --rpc-http-enabled --rpc-http-api="ETH, NET, IBFT" --host-allowlist="*" --rpc-http-cors-origins="all" --rpc-http-port=8548
+
 

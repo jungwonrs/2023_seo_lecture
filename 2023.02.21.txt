@@ -1,0 +1,100 @@
+geth 란 
+이더리움 네트워크 (이더리움 메인넷, 이더리움 테스트 네트워크)랑 연결할 수 있도록 도와주는 프로그램.
+이더리움 기반의 프라이빗 네트워크를 생성할 수 있도록 도와주는 프로그램.
+
+geth로 채굴하는 방법
+원하는 네트워크 동기화를 먼저하고, 명령어로 채굴시작. (현재 이더리움 PoS 전환이후 기존 채굴 방법 막힘)
+
+geth private network 맛보기 실습
+
+1. geth 설치 (인터넷을 통한 다운로드)
+2. cmd 창에서 geth 명령어가 작동하는지 확인 (작동이 안되는 경우 환경변수 확인)
+3. cmd 창에서 아래 명령어 작성하여 계정 파일 만들기
+
+명령어 syntax:
+geth --datadir [계정 파일을 만들고자 하는 폴더 위치] account new
+
+예시:
+geth --datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/keystore account new
+
+4. 블록체인 데이터를 저장할 폴더 만들기 (node1, node2)
+
+5. node1 폴더안에 keystore 폴더 만들기, node2 폴더안에 keystore 폴더 만들기
+
+6. node1, node2 폴더안 keystore 폴더 안에 3번에서 생성된 계정 파일 넣기
+
+7. genesis.json 파일 만들기 (genesis block을 위함)
+
+8. genesis.json 파일 이동
+
+9. genesis.json 파일을 적용
+명령어 syntax:
+geth --datadir data init [genesis.json 파일 위치]
+
+ex:
+geth --datadir data init genesis.json
+
+10. 노드 1번 구동
+
+geth 
+--datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/node1/data 
+--keystore /c/Users/jungw/OneDrive/Desktop/geth_private_network/node1/keystore 
+--unlock 0 
+--nodiscover 
+--http 
+--http.api 'personal,eth,net,web3,txpool,miner' 
+--http.corsdomain "*" 
+--networkid 12345 
+--nat extip:127.0.0.1
+--mine 
+--miner.etherbase="8d6b836f8683b98a0adb1c94355c20a25db1584c" 
+--allow-insecure-unlock console
+
+11. 노드 2번 구동
+
+geth 
+--datadir /c/Users/jungw/OneDrive/Desktop/geth_private_network/node2/data
+--networkid 12345 
+--port 30304
+--nodiscover 
+--ipcdisable 
+--authrpc.port 8552
+console
+
+
+12. 노드 1, 노드2 연결
+노드 1에서 
+admin.nodeInfo.enode
+명령어 입력
+
+"enode://e330ca770bfea6172d5c42dc3753db7d3cbfe9b74e17c0e4114acbf25aa91ff13db8a65188937cad56b8a3ada25266550d7a832d35859a284efea3134a4ed64f@127.0.0.1:30303?discport=0"
+
+노드2에서
+admin.addPeer("enode://e330ca770bfea6172d5c42dc3753db7d3cbfe9b74e17c0e4114acbf25aa91ff13db8a65188937cad56b8a3ada25266550d7a832d35859a284efea3134a4ed64f@127.0.0.1:30303?discport=0")
+
+
+[기타 정보]
+eth.coinbase -> 보상 받는 주소 보는 명령어
+miner.start() -> 노드 1 채굴 시작
+miner.stop() -> 노드 1 채굴 종료
+
+
+[node1]
+private key:
+4c77d8c27a29653d8dd0e9071aaf35363498cab023f82094d6d85f826fcdafe9
+
+address:
+8d6b836f8683b98a0adb1c94355c20a25db1584c
+
+[node2]
+private key:
+84cd76fb9a0f29b48e9c85c0c556d9abdb61c8b46bfe53c0cbd5d4b34e9ce6b5
+
+address:
+6f21f3cdd7c8c4f1fec1596e34e255c48a1e1e47
+
+02-22 준비사항
+
+1. Atom 설치
+2. JAVA 삭제 
+
